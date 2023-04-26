@@ -12,14 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.appvision.newsapp.adapter.AllArticleAdapter
 import com.appvision.newsapp.adapter.TopHeadlinesAdapter
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.databinding.FragmentHomepageBinding
 import com.appvision.newsapp.utils.OnClickListener
 import kotlinx.coroutines.launch
+
 
 class HomepageFragment : Fragment(), OnClickListener {
     lateinit var binding: FragmentHomepageBinding
@@ -38,12 +37,6 @@ class HomepageFragment : Fragment(), OnClickListener {
                 requireActivity().application
             )
         )[HomepageViewModel::class.java]
-        val layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        binding.rvAllArticles.layoutManager = layoutManager
-        binding.rvAllArticles.setHasFixedSize(true)
-        binding.rvTopHeadlines.layoutManager =
-            LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-        binding.rvTopHeadlines.setHasFixedSize(true)
         return view
     }
 
@@ -65,12 +58,14 @@ class HomepageFragment : Fragment(), OnClickListener {
         })
 
         viewModel.headLineList?.observe(viewLifecycleOwner) {
-            headLinesAdapter.setList(it)
-            binding.rvTopHeadlines.adapter = headLinesAdapter
+                headLinesAdapter.setList(it)
+                binding.rvTopHeadlines.adapter = headLinesAdapter
+
+
         }
 
         binding.querySearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.deleteForSearch()
                 val searchQuery = binding.querySearch.text.toString()
                 lifecycleScope.launch {
@@ -79,6 +74,7 @@ class HomepageFragment : Fragment(), OnClickListener {
                     viewModel.bookmark?.observe(viewLifecycleOwner, Observer {
                         allArticleAdapter.setList(it)
                         binding.rvAllArticles.adapter = allArticleAdapter
+
                         return@Observer
                     })
                 }

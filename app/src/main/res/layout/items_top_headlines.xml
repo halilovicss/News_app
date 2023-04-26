@@ -13,7 +13,6 @@
         android:id="@+id/img_headline_item"
         android:layout_width="256dp"
         android:layout_height="256dp"
-        android:src="@drawable/newsitem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

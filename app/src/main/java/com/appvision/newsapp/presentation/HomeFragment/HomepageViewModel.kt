@@ -10,6 +10,7 @@ import com.appvision.newsapp.data.local.LocalDatabase
 import com.appvision.newsapp.data.model.Article
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.data.repository.Repository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomepageViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,6 +30,7 @@ class HomepageViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             loadAndSave("Facebook")
             saveHeadLine()
+            delay(1000)
         }
         loadBookmark("Facebook")
         headLineList = repository.loadBookmarksList(1, "top")
