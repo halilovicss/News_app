@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">News App</string>
+    <string name="home">Home</string>
+    <string name="categories">Categories</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="account">Account</string>
+    <string name="browse">Browse</string>
+    <string name="discover_things_of_this_world">Discover things of this world</string>
+    <string name="top_headlines">Top Headlines</string>
+    <string name="article_image">Article image</string>
+    <string name="all_articles">All Articles</string>
+    <string name="saved_articles_to_the_library">Saved articles to the library</string>
+    <string name="you_haven_t_saved_any_articles_yet_start_reading_and_bookmarking_them_now">You haven\'t saved any articles yet. Start reading and bookmarking them now</string>
+    <string name="results">Results</string>
+    <string name="share_image">Share image</string>
+    <string name="go_back">Go back</string>
+    <string name="icon_save_article">Icon save article</string>
+    <string name="icon_remove_article">Icon Remove article</string>
+    <string name="main_image">Main image</string>
+    <string name="image_no_saved">Image no saved</string>
+    <string name="search">Search…</string>
+</resources>

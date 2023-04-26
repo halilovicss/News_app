@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_image">Share image</string>
+    <string name="go_back">Go back</string>
+    <string name="icon_remove_article">Icon Remove article</string>
+    <string name="main_image">Main image</string>
+    <string name="image_no_saved">Image no saved</string>
+    <string name="search">Search...</string>
+</resources>

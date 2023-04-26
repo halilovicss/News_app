@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="256dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="16dp"
+    app:cardCornerRadius="12dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_headline_item"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:src="@drawable/newsitem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/main_image" />
+
+    <ImageView
+        android:id="@+id/img_save_bookmarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_bookmark_outlined"
+        android:backgroundTint="@color/white"
+        android:layout_marginEnd="29dp"
+        android:visibility="gone"
+        android:layout_marginTop="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/icon_save_article" />
+    <ImageView
+        android:id="@+id/img_delete_bookmarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_bookmark_filled"
+        android:visibility="gone"
+        android:backgroundTint="@color/white"
+        android:layout_marginEnd="29dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/icon_remove_article" />
+    <TextView
+        android:id="@+id/text_item_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto"
+        android:textSize="12sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_headline_item"
+        app:layout_constraintStart_toStartOf="@+id/img_headline_item"
+        app:layout_constraintTop_toTopOf="@+id/img_headline_item" />
+
+    <TextView
+        android:id="@+id/text_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_bold"
+        android:maxLines="2"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_item_categories"
+        app:layout_constraintTop_toBottomOf="@+id/text_item_categories" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

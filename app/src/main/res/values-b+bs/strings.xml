@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">News App</string>
+    <string name="home">Pocetna</string>
+    <string name="categories">Kategorije</string>
+    <string name="bookmarks">Favoriti</string>
+    <string name="account">Racun</string>
+    <string name="browse">Pretrazi</string>
+    <string name="discover_things_of_this_world">Discover things of this world</string>
+    <string name="top_headlines">Novosti</string>
+    <string name="article_image">Slika clanka</string>
+    <string name="all_articles">Sve vijesti</string>
+    <string name="saved_articles_to_the_library">Spremi clanak u favorite</string>
+    <string name="you_haven_t_saved_any_articles_yet_start_reading_and_bookmarking_them_now">Jos uvijek niste spremili članak. Ucinite kako bi mogli citati poslije</string>
+    <string name="results">Rezultati</string>
+    <string name="share_image">Podijeli slika</string>
+    <string name="go_back">Nazad</string>
+    <string name="icon_remove_article">Ikona ukloni clanak</string>
+    <string name="main_image">Glavna slika</string>
+    <string name="image_no_saved">Slika nije spremljena</string>
+    <string name="search">Trazi...</string>
+    <string name="icon_save_article">Ikona spremi članak</string>
+
+</resources>
