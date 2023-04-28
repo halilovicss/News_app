@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide
 class AllArticleAdapter(private val onItemClickListener: OnClickListener) :
     RecyclerView.Adapter<ViewHolders>() {
     private var allArticles = listOf<ArticleModel>()
-
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): ViewHolders {

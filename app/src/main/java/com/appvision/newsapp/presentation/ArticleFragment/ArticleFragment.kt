@@ -1,6 +1,7 @@
 package com.appvision.newsapp.presentation.ArticleFragment
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,7 @@ class ArticleFragment : Fragment() {
     }
 
     private fun loadUI(id: String) {
+
         viewModel.loadArticle(id)
         viewModel.articleItem?.observe(viewLifecycleOwner) { list ->
             list.forEach { model ->
@@ -78,6 +80,12 @@ class ArticleFragment : Fragment() {
                 }
                 binding.imgRemove.setOnClickListener {
                     saveDelete(1, args.id)
+                }
+
+                binding.textDescription.setOnClickListener {
+                    val uri = Uri.parse(model.url)
+                    val browserIntent = Intent(Intent.ACTION_VIEW,uri)
+                    startActivity(browserIntent)
                 }
             }
         }
