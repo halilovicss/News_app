@@ -1,4 +1,4 @@
-package com.appvision.newsapp.presentation.BookmarksFragment
+package com.appvision.newsapp.presentation.bookmarks_fragment
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,25 +7,22 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.databinding.ItemArticlesBinding
-import com.bumptech.glide.Glide
 
 class BookmarksAdapter : RecyclerView.Adapter<ViewHolder>() {
     private var bookmarksList = listOf<ArticleModel>()
+    lateinit var binding: ItemArticlesBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ItemArticlesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(view)
+        binding = ItemArticlesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model: ArticleModel = bookmarksList[position]
-        holder.binding.textItemArticleTitle.text = model.title
-        holder.binding.textItemArticleCat.text = model.name
-        Glide.with(holder.itemView).load(model.urlToImage).centerCrop()
-            .into(holder.binding.imgArticle)
+        holder.bind(model)
         holder.itemView.setOnClickListener {
             val directions =
-                BookmarksFragmentDirections.actionBookmarksFragmentToArticleFragment(model.id_key.toString())
+                BookmarksFragmentDirections.actionBookmarksFragmentToArticleFragment(model.id_key)
             holder.itemView.findNavController().navigate(directions)
         }
     }
@@ -33,13 +30,14 @@ class BookmarksAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount(): Int {
         return bookmarksList.size
     }
-
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<ArticleModel>) {
         this.bookmarksList = list
         notifyDataSetChanged()
     }
-
 }
-
-class ViewHolder(val binding: ItemArticlesBinding) : RecyclerView.ViewHolder(binding.root)
+class ViewHolder(val binding: ItemArticlesBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(model: ArticleModel) {
+        binding.itemData = model
+    }
+}

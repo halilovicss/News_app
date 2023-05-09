@@ -17,7 +17,10 @@
     <string name="icon_remove_article">Ikona ukloni clanak</string>
     <string name="main_image">Glavna slika</string>
     <string name="image_no_saved">Slika nije spremljena</string>
-    <string name="search">Trazi...</string>
+    <string name="search">Trazi…</string>
     <string name="icon_save_article">Ikona spremi članak</string>
+    <string name="article">Article</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
 
 </resources>

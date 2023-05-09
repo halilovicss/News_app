@@ -1,4 +1,4 @@
-package com.appvision.newsapp.presentation.HomeFragment
+package com.appvision.newsapp.presentation.home_fragment
 
 import android.app.Application
 import android.util.Log
@@ -10,37 +10,46 @@ import com.appvision.newsapp.data.local.LocalDatabase
 import com.appvision.newsapp.data.model.Article
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.data.repository.Repository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomepageViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: Repository
-
-    var bookmark: LiveData<List<ArticleModel>>? = null
-    var headLineList: LiveData<List<ArticleModel>>? = null
     val data: LocalDatabase
+    var allArticleList: LiveData<List<ArticleModel>>? = null
+    var topHeadlineList: LiveData<List<ArticleModel>>? = null
+    private val repository: Repository
 
     init {
         val dao = LocalDatabase.getDatabaseData(application).getDAO()
         data = LocalDatabase.getDatabaseData(application)
         repository = Repository(WebService.getInstance(), dao)
-
-        repository.deleteFromBookmarks(0)
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            delete()
             loadAndSave("Facebook")
             saveHeadLine()
             delay(1000)
         }
-        loadBookmark("Facebook")
-        headLineList = repository.loadBookmarksList(1, "top")
-
+        loadAllArticle("Facebook")
+        loadTopList()
     }
 
-    fun loadBookmark(title: String) {
-        bookmark = repository.loadBookmarksList(0, title)
+    private fun loadTopList() {
+        topHeadlineList = repository.loadBookmarksList(1, "top")
     }
 
+    fun loadAllArticle(title: String) {
+        allArticleList = repository.loadBookmarksList(0, title)
+    }
+
+    fun saveArticle(id: String) {
+        repository.setFavourite(1, id)
+    }
+
+    fun deleteArticle(id: String) {
+        repository.setFavourite(0, id)
+    }
 
     suspend fun loadAndSave(category: String) {
         val response = repository.getAllArticles(category)
@@ -55,17 +64,19 @@ class HomepageViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    private fun delete() = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteFromBookmarks(0)
+    }
 
-    fun deleteForSearch(): Unit = repository.deleteForSearch()
-
+    fun deleteForSearch() = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteForSearch()
+    }
 
     private suspend fun saveHeadLine() {
         val response = repository.getTopHeadlines()
-        response.body()!!.articles.forEach { model ->
+        response.body()?.articles?.forEach { model ->
             repository.insertBookmarkList(mapToHeadline(model))
         }
-
-
     }
 
     private fun mapToArticle(response: Article, category: String): ArticleModel {
@@ -100,9 +111,4 @@ class HomepageViewModel(application: Application) : AndroidViewModel(application
             top = 1
         )
     }
-
 }
-
-
-
-

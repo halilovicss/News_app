@@ -1,53 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginBottom="20dp"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_img"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        app:cardCornerRadius="12dp"
-        android:layout_marginStart="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+    <data>
+        <variable
+            name="itemData"
+            type="com.appvision.newsapp.data.model.ArticleModel" />
+    </data>
 
-        <ImageView
-            android:id="@+id/img_article"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/article_image" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp">
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_img"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="1dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/text_item_article_cat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:maxLines="1"
-        android:textSize="14sp"
-        android:textColor="@color/grey_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/card_img"
-        app:layout_constraintTop_toTopOf="@+id/card_img" />
+            <ImageView
+                android:id="@+id/img_article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:contentDescription="@string/article_image"
+                android:scaleType="centerCrop"
+                app:loadImage="@{itemData.urlToImage}" />
 
-    <TextView
-        android:id="@+id/text_item_article_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="@color/blac_primary"
-        android:fontFamily="@font/roboto_bold"
-        android:maxLines="2"
-        app:layout_constraintEnd_toEndOf="@+id/text_item_article_cat"
-        app:layout_constraintStart_toStartOf="@+id/text_item_article_cat"
-        app:layout_constraintTop_toBottomOf="@+id/text_item_article_cat" />
+        </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_item_article_cat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:text="@{itemData.name}"
+            android:textColor="@color/grey_primary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/card_img"
+            app:layout_constraintTop_toTopOf="@+id/card_img" />
+
+        <TextView
+            android:id="@+id/text_item_article_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:maxLines="2"
+            android:text="@{itemData.title}"
+            android:textColor="@color/blac_primary"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/text_item_article_cat"
+            app:layout_constraintStart_toStartOf="@+id/text_item_article_cat"
+            app:layout_constraintTop_toBottomOf="@+id/text_item_article_cat" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

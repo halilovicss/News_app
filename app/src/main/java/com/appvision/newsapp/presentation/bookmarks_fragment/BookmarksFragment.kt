@@ -1,7 +1,6 @@
-package com.appvision.newsapp.presentation.BookmarksFragment
+package com.appvision.newsapp.presentation.bookmarks_fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.appvision.newsapp.databinding.FragmentBookmarksBinding
 
-
 class BookmarksFragment : Fragment() {
     private var _binding: FragmentBookmarksBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: BookmarksViewModel
     private val adapter = BookmarksAdapter()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -25,13 +22,11 @@ class BookmarksFragment : Fragment() {
         )[BookmarksViewModel::class.java]
         _binding = FragmentBookmarksBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.bookmarksList.observe(viewLifecycleOwner) {
-            Log.d("BOOKMARK", "onViewCreated: $it")
             adapter.setList(it)
             if (it.isNotEmpty()) {
                 binding.rLayoutMsg.visibility = View.GONE
@@ -43,6 +38,4 @@ class BookmarksFragment : Fragment() {
             }
         }
     }
-
-
 }

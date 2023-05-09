@@ -8,17 +8,15 @@ import com.appvision.newsapp.data.model.ArticleModel
 
 @Database(entities = [ArticleModel::class], version = 1, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase() {
+    abstract fun getDAO(): DAO
 
-abstract fun getDAO(): DAO
     companion object {
         @Volatile
         private var INSTANCE: LocalDatabase? = null
         fun getDatabaseData(context: Context): LocalDatabase {
-            return INSTANCE ?: synchronized(this) {
+            return INSTANCE ?: synchronized(LocalDatabase::class) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    LocalDatabase::class.java,
-                    "database"
+                    context.applicationContext, LocalDatabase::class.java, "database"
                 ).allowMainThreadQueries()
                     .build()
                 INSTANCE = instance

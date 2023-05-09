@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".presentation.BookmarksFragment.BookmarksFragment">
+    tools:context=".presentation.bookmarks_fragment.BookmarksFragment">
 
     <TextView
         android:id="@+id/text_bookmarks"
@@ -80,6 +80,5 @@
             android:textColor="@color/blac_primary"
             android:textSize="16sp" />
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

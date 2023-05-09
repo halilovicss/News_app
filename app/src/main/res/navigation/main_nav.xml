@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/homepageFragment"
-        android:name="com.appvision.newsapp.presentation.HomeFragment.HomepageFragment"
-        android:label="fragment_homepage"
+        android:name="com.appvision.newsapp.presentation.home_fragment.HomepageFragment"
         tools:layout="@layout/fragment_homepage">
         <action
             android:id="@+id/action_homepageFragment_to_articleFragment"
             app:destination="@id/articleFragment"
-            app:popUpTo="@id/homepageFragment"
-           >
-
-        </action>
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            app:popUpTo="@id/homepageFragment" />
         <action
             android:id="@+id/action_homepageFragment_to_bookmarksFragment"
             app:destination="@id/bookmarksFragment" />
@@ -24,19 +24,22 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.appvision.newsapp.presentation.ArticleFragment.ArticleFragment"
-        android:label="fragment_article"
-        tools:layout="@layout/fragment_article" >
-        <argument android:name="id"
+        android:name="com.appvision.newsapp.presentation.article_fragment.ArticleFragment"
+        tools:layout="@layout/fragment_article">
+        <argument
+            android:name="id"
             app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
-        android:name="com.appvision.newsapp.presentation.BookmarksFragment.BookmarksFragment"
-        android:label="fragment_bookmarks"
-        tools:layout="@layout/fragment_bookmarks" >
+        android:name="com.appvision.newsapp.presentation.bookmarks_fragment.BookmarksFragment"
+        tools:layout="@layout/fragment_bookmarks">
         <action
             android:id="@+id/action_bookmarksFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
 </navigation>
