@@ -1,7 +1,7 @@
 package com.appvision.newsapp.data.internet
 
+import com.appvision.newsapp.BuildConfig
 import com.appvision.newsapp.data.model.NewsModel
-import com.appvision.newsapp.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -28,7 +28,7 @@ interface WebService {
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
             if (webService == null) {
-                val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
+                val retrofit = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()

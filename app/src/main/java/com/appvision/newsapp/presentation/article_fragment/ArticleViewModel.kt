@@ -113,6 +113,7 @@ class ArticleViewModel(
     fun openArticle() {
         localArticle?.url?.let { callback.openArticle(it) }
     }
+
     fun loadArticle(id: String) {
         Log.d("TAG", "loadArticle: Load")
         handleArticleUI(repository.loadBookmarkArticle(id))

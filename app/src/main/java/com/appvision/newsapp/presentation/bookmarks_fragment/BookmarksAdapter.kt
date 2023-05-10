@@ -30,12 +30,14 @@ class BookmarksAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun getItemCount(): Int {
         return bookmarksList.size
     }
+
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<ArticleModel>) {
         this.bookmarksList = list
         notifyDataSetChanged()
     }
 }
+
 class ViewHolder(val binding: ItemArticlesBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: ArticleModel) {
         binding.itemData = model

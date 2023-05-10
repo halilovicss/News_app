@@ -42,7 +42,7 @@ class HomepageFragment : Fragment(), HomeCallback {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCategoryList.adapter = categoryListAdapter
 
-        viewModel.topHeadlineList?.observe(viewLifecycleOwner){
+        viewModel.topHeadlineList?.observe(viewLifecycleOwner) {
             headLinesAdapter.setList(it)
             binding.rvTopHeadlines.adapter = headLinesAdapter
         }
