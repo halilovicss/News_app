@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    def localPropertiesFile = rootProject.file("key.properties")
+    def localPropertiesFile = rootProject.file("debug/key.properties")
     def localProperties = new Properties()
     localProperties.load(new FileInputStream(localPropertiesFile))
 

@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbarMenu.setupWithNavController(navController, appBarConfiguration)
 
-
-
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 id.menu_home -> {
