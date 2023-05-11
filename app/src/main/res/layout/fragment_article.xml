@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".presentation.article_fragment.ArticleFragment">
 
         <androidx.core.widget.NestedScrollView
@@ -31,23 +32,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_article_image"
+                <ImageView
+                    android:id="@+id/img_article_main"
                     android:layout_width="0dp"
                     android:layout_height="280dp"
-                    app:cardCornerRadius="16dp"
+                    android:background="@drawable/edittext_background"
+                    android:contentDescription="@string/main_image"
+                    android:scaleType="fitXY"
+                    app:imageUrls="@{data.articleImageUrl}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/img_article_main"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/main_image"
-                        android:scaleType="fitXY"
-                        app:imageUrls="@{data.articleImageUrl}" />
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/text_item_categories"
@@ -64,7 +59,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/card_article_image" />
+                    app:layout_constraintTop_toBottomOf="@+id/img_article_main" />
 
                 <TextView
                     android:id="@+id/text_title"

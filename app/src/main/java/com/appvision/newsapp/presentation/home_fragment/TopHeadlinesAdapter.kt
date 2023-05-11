@@ -3,8 +3,6 @@ package com.appvision.newsapp.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.net.toUri
@@ -29,7 +27,7 @@ class TopHeadlinesAdapter(
     ): ViewHolder {
         binding =
             ItemsTopHeadlinesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, homeCallback, itemsList)
+        return ViewHolder(binding, homeCallback)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -52,7 +50,6 @@ class TopHeadlinesAdapter(
 class ViewHolder(
     val binding: ItemsTopHeadlinesBinding,
     homeCallback: HomeCallback,
-    model: List<ArticleModel>,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: ArticleModel) {
         binding.headlineData = model
@@ -60,21 +57,16 @@ class ViewHolder(
 
     init {
         itemView.setOnClickListener {
-            homeCallback.onClick(model[adapterPosition].id_key)
+            homeCallback.onClick(binding.headlineData?.id_key ?: "")
         }
         binding.imgSaveBookmarks.setOnClickListener {
-            homeCallback.onImageClick(model[adapterPosition].id_key, 1, adapterPosition)
-            binding.imgDeleteBookmarks.visibility = VISIBLE
-            binding.imgSaveBookmarks.visibility = GONE
+            homeCallback.onImageClick(binding.headlineData?.id_key ?: "", 1, adapterPosition)
         }
         binding.imgDeleteBookmarks.setOnClickListener {
-            homeCallback.onImageClick(model[adapterPosition].id_key, 0, adapterPosition)
-            binding.imgSaveBookmarks.visibility = VISIBLE
-            binding.imgDeleteBookmarks.visibility = GONE
+            homeCallback.onImageClick(binding.headlineData?.id_key ?: "", 0, adapterPosition)
         }
     }
 }
-
 @BindingAdapter("bind:loadTopImage")
 fun setImageUrl(view: ImageView, urlToImage: String?) {
     urlToImage.let {

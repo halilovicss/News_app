@@ -35,8 +35,21 @@ class HomepageViewModel(application: Application) : AndroidViewModel(application
         loadTopList()
     }
 
-    private fun loadTopList() {
-        topHeadlineList = repository.loadBookmarksList(1, "top")
+    suspend fun loadAndSave(category: String) {
+        val response = repository.getAllArticles(category)
+        if (response.isSuccessful) {
+            response.body()?.articles?.forEach {
+                try {
+                    repository.insertBookmarkList(mapToArticle(it, category))
+                } catch (e: Exception) {
+                    Log.e("TAG", "loadAndSave: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun deleteForSearch() = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteForSearch()
     }
 
     fun loadAllArticle(title: String) {
@@ -51,25 +64,12 @@ class HomepageViewModel(application: Application) : AndroidViewModel(application
         repository.setFavourite(0, id)
     }
 
-    suspend fun loadAndSave(category: String) {
-        val response = repository.getAllArticles(category)
-        if (response.isSuccessful) {
-            response.body()?.articles?.forEach {
-                try {
-                    repository.insertBookmarkList(mapToArticle(it, category))
-                } catch (e: Exception) {
-                    Log.e("TAG", "loadAndSave: ${e.message}")
-                }
-            }
-        }
+    private fun loadTopList() {
+        topHeadlineList = repository.loadBookmarksList(1, "top")
     }
 
     private fun delete() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteFromBookmarks(0)
-    }
-
-    fun deleteForSearch() = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteForSearch()
     }
 
     private suspend fun saveHeadLine() {

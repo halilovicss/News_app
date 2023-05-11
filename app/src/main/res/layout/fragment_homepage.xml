@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.appvision.newsapp.presentation.home_fragment.HomepageViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrool"
+        android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -18,39 +19,52 @@
         tools:context=".presentation.home_fragment.HomepageFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scroll_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="19dp" />
 
             <TextView
                 android:id="@+id/text_browse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/browse"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_subtitle_main"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="@string/discover_things_of_this_world"
                 android:textColor="@color/grey_primary"
-                app:layout_constraintStart_toStartOf="@+id/text_browse"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/text_browse" />
 
             <EditText
                 android:id="@+id/query_search"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="19dp"
                 android:background="@drawable/edittext_background"
                 android:drawableStart="@drawable/ic_search"
                 android:drawableEnd="@drawable/ic_microphone"
@@ -61,7 +75,8 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:padding="15dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/text_subtitle_main" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -70,11 +85,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="@+id/query_search"
-                app:layout_constraintStart_toStartOf="@+id/query_search"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/query_search"
-                app:spanCount="1"
                 tools:listitem="@layout/item_category" />
 
             <TextView
@@ -86,7 +100,7 @@
                 android:text="@string/top_headlines"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/query_search"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/rv_category_list" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -95,10 +109,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal"
-                android:saveEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/text_top_headlines"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/text_top_headlines"
                 tools:listitem="@layout/items_top_headlines" />
 
@@ -111,21 +124,22 @@
                 android:text="@string/all_articles"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/text_top_headlines"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/rv_top_headlines" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_all_articles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/text_all_articles"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/text_all_articles"
                 tools:listitem="@layout/item_articles" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

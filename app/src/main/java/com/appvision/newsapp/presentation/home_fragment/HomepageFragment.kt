@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.appvision.newsapp.R
 import com.appvision.newsapp.databinding.FragmentHomepageBinding
 import com.appvision.newsapp.presentation.TopHeadlinesAdapter
 import kotlinx.coroutines.delay
@@ -42,14 +44,15 @@ class HomepageFragment : Fragment(), HomeCallback {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCategoryList.adapter = categoryListAdapter
 
+        binding.rvTopHeadlines.adapter = headLinesAdapter
+
         viewModel.topHeadlineList?.observe(viewLifecycleOwner) {
             headLinesAdapter.setList(it)
-            binding.rvTopHeadlines.adapter = headLinesAdapter
         }
 
+        binding.rvAllArticles.adapter = allArticleAdapter
         viewModel.allArticleList?.observe(viewLifecycleOwner) { articleList ->
             allArticleAdapter.setList(articleList)
-            binding.rvAllArticles.adapter = allArticleAdapter
         }
 
         binding.querySearch.setOnEditorActionListener { _, actionId, _ ->
@@ -68,8 +71,10 @@ class HomepageFragment : Fragment(), HomeCallback {
     }
 
     override fun onClick(id: String) {
-        val directions = HomepageFragmentDirections.actionHomepageFragmentToArticleFragment(id)
-        findNavController().navigate(directions)
+        val bundle = bundleOf(
+            "articleId" to id
+        )
+        findNavController().navigate(R.id.action_homepageFragment_to_articleFragment, bundle)
     }
 
     override fun onImageClick(id: String, status: Int?, position: Int) {
@@ -82,7 +87,6 @@ class HomepageFragment : Fragment(), HomeCallback {
     override fun onCategoryClick(title: String) {
         search(title)
     }
-
     private fun search(title: String) {
         viewModel.deleteForSearch()
         lifecycleScope.launch {
@@ -96,5 +100,3 @@ class HomepageFragment : Fragment(), HomeCallback {
         }
     }
 }
-
-

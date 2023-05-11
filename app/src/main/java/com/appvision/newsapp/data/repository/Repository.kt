@@ -21,5 +21,4 @@ class Repository(private val webService: WebService, private val dao: DAO) {
     fun loadFavouriteArticles(id: Int) = dao.loadFavouriteArticles(id)
     fun deleteFromBookmarks(id: Int) = dao.deleteFromBookmarks(id)
     fun deleteForSearch() = dao.deleteForSearch()
-
 }

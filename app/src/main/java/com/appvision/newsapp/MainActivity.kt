@@ -1,62 +1,58 @@
 package com.appvision.newsapp
 
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.appvision.newsapp.R.id
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import com.appvision.newsapp.databinding.ActivityMainBinding
+import com.appvision.newsapp.extensions.listOfHidden
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
+    private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbarMenu.setupWithNavController(navController, appBarConfiguration)
-
-        binding.bottomNavigation.setOnItemSelectedListener {
-            when (it.itemId) {
-                id.menu_home -> {
-                    navController.navigate(id.homepageFragment)
-                    return@setOnItemSelectedListener true
-                }
-
-                id.menu_bookmarks -> {
-                    navController.navigate(id.bookmarksFragment)
-                    return@setOnItemSelectedListener true
-                }
-            }
-            false
-        }
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == id.articleFragment) {
-                binding.bottomNavigation.visibility = View.GONE
-                binding.toolbarMenu.visibility = View.VISIBLE
-                //    binding.toolbarMenu.inflateMenu(menu.article)
-
-            } else {
-                binding.bottomNavigation.visibility = View.VISIBLE
-                binding.toolbarMenu.visibility = View.GONE
-                binding.toolbarMenu.menu.clear()
-            }
-        }
+        setContentView(binding.root)
+        setupBottomNavigationBar()
     }
 
-}
+    private fun setupBottomNavigationBar() {
+        val navGraphIds = listOf(R.navigation.home, R.navigation.bookmarks)
+        val controller = binding.bottomNavigation.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_fragment,
+        )
 
+        controller.observe(this) {
+            binding.toolbarMenu.title = ""
+            binding.toolbarMenu.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_back)
+            setSupportActionBar(binding.toolbarMenu)
+            it.addOnDestinationChangedListener { _, destination, _ ->
+                hideToolbar(destination.id)
+            }
+        }
+        currentNavController = controller
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    private fun hideToolbar(id: Int) {
+        binding.toolbarMenu.visibility = if (id in listOfHidden) {
+            GONE
+        } else {
+            VISIBLE
+        }
+    }
+}
 
 
 

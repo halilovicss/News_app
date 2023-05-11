@@ -3,11 +3,7 @@ package com.appvision.newsapp.presentation.article_fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
@@ -36,10 +32,12 @@ class ArticleFragment : Fragment(), ArticleCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("TAG", "onViewCreated: Otvoren ${args.id}")
         viewModel.viewModelScope.launch(Dispatchers.IO) {
-            viewModel.loadArticle(args.id)
+            viewModel.loadArticle(args.articleId)
         }
+
+        binding.imgArticleMain.outlineProvider = ViewOutlineProvider.BACKGROUND
+        binding.imgArticleMain.clipToOutline = true
     }
 
     override fun shareArticle(articleUrl: String) {
@@ -61,53 +59,45 @@ class ArticleFragment : Fragment(), ArticleCallback {
     override fun createToolbarMenu(
         status: Int?, title: String, shareUrl: String, toggleBookmark: (Boolean) -> Unit
     ) {
-        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar_menu)
-        viewModel.viewModelScope.launch {
-            viewModel.setFavourite.observe(viewLifecycleOwner) { status ->
-
-                if (status == 1) {
-                    toolbar?.menu?.let {
-                        it.clear()
-                        it.add(1, 1, 0, "Share").apply {
-                            setIcon(R.drawable.ic_share)
-                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-                            it.add(2, 2, 0, "Delete").apply {
-                                setIcon(R.drawable.ic_bookmark_filled)
+        activity?.findViewById<Toolbar>(R.id.toolbar_menu)?.let { toolbar ->
+            viewModel.viewModelScope.launch {
+                viewModel.setFavourite.observe(viewLifecycleOwner) { status ->
+                    if (status == 1) {
+                        toolbar.menu?.let {
+                            it.clear()
+                            it.add(1, 1, 0, "Share").apply {
+                                setIcon(R.drawable.ic_share)
+                                setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                                it.add(2, 2, 0, "Delete").apply {
+                                    setIcon(R.drawable.ic_bookmark_filled)
+                                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                                }
+                            }
+                        }
+                    } else if (status == 0) {
+                        toolbar.menu?.let {
+                            it.clear()
+                            it.add(1, 1, 0, "Share").apply {
+                                setIcon(R.drawable.ic_share)
                                 setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                             }
-
-                        }
-
-                    }
-                } else if (status == 0) {
-                    toolbar?.menu?.let {
-                        it.clear()
-                        it.add(1, 1, 0, "Share").apply {
-                            setIcon(R.drawable.ic_share)
-                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-                        }
-                        it.add(3, 3, 0, " Add").apply {
-                            setIcon(R.drawable.ic_bookmark_outlined)
-                            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                            it.add(3, 3, 0, " Add").apply {
+                                setIcon(R.drawable.ic_bookmark_outlined)
+                                setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                            }
                         }
                     }
                 }
             }
-        }
-        toolbar?.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                1 -> shareArticle(shareUrl)
-                2 -> toggleBookmark(false)
-                3 -> toggleBookmark(true)
+            toolbar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    1 -> shareArticle(shareUrl)
+                    2 -> toggleBookmark(false)
+                    3 -> toggleBookmark(true)
+                }
+                true
             }
-            true
         }
+
     }
 }
-
-
-
-
-
-
-

@@ -1,45 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/homepageFragment">
-
-    <fragment
-        android:id="@+id/homepageFragment"
-        android:name="com.appvision.newsapp.presentation.home_fragment.HomepageFragment"
-        tools:layout="@layout/fragment_homepage">
-        <action
-            android:id="@+id/action_homepageFragment_to_articleFragment"
-            app:destination="@id/articleFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out"
-            app:popUpTo="@id/homepageFragment" />
-        <action
-            android:id="@+id/action_homepageFragment_to_bookmarksFragment"
-            app:destination="@id/bookmarksFragment" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.appvision.newsapp.presentation.article_fragment.ArticleFragment"
-        tools:layout="@layout/fragment_article">
-        <argument
-            android:name="id"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/bookmarksFragment"
-        android:name="com.appvision.newsapp.presentation.bookmarks_fragment.BookmarksFragment"
-        tools:layout="@layout/fragment_bookmarks">
-        <action
-            android:id="@+id/action_bookmarksFragment_to_articleFragment"
-            app:destination="@id/articleFragment"
-            app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_out" />
-    </fragment>
+    app:startDestination="@+id/home">
+    <include app:graph="@navigation/home" />
+    <include app:graph="@navigation/bookmarks" />
 </navigation>

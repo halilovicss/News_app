@@ -3,14 +3,15 @@ package com.appvision.newsapp.presentation.home_fragment
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.ImageView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appvision.newsapp.R
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.databinding.ItemArticlesBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 
@@ -24,7 +25,7 @@ class AllArticleAdapter(
         parent: ViewGroup, viewType: Int
     ): ViewHolders {
         binding = ItemArticlesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolders(binding, homeCallback, allArticles)
+        return ViewHolders(binding, homeCallback)
     }
 
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
@@ -42,15 +43,16 @@ class AllArticleAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<ArticleModel>) {
-        this.allArticles = list
-        notifyDataSetChanged()
+        if (this.allArticles != list) {
+            this.allArticles = list
+            notifyDataSetChanged()
+        }
     }
 }
 
 class ViewHolders(
     val binding: ItemArticlesBinding,
     homeCallback: HomeCallback,
-    model: List<ArticleModel>,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: ArticleModel) {
         binding.itemData = model
@@ -58,20 +60,15 @@ class ViewHolders(
 
     init {
         itemView.setOnClickListener {
-            model[adapterPosition].id_key.let { it1 -> homeCallback.onClick(it1) }
+            binding.itemData?.id_key?.let { id -> homeCallback.onClick(id) }
         }
     }
 }
 
 @BindingAdapter("bind:loadImage")
 fun setImageUrl(view: ImageView, urlToImage: String?) {
-    urlToImage.let {
-        val imgUri = it?.toUri()?.buildUpon()?.scheme("https")?.build()
-        Glide.with(view.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_loading)
-            ).into(view)
-    }
+    view.outlineProvider = ViewOutlineProvider.BACKGROUND
+    view.clipToOutline = true
+    Glide.with(view.context).load(urlToImage).transition(DrawableTransitionOptions.withCrossFade())
+        .apply(RequestOptions().placeholder(R.drawable.ic_loading)).into(view)
 }

@@ -3,8 +3,10 @@ package com.appvision.newsapp.presentation.bookmarks_fragment
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.appvision.newsapp.R
 import com.appvision.newsapp.data.model.ArticleModel
 import com.appvision.newsapp.databinding.ItemArticlesBinding
 
@@ -21,9 +23,9 @@ class BookmarksAdapter : RecyclerView.Adapter<ViewHolder>() {
         val model: ArticleModel = bookmarksList[position]
         holder.bind(model)
         holder.itemView.setOnClickListener {
-            val directions =
-                BookmarksFragmentDirections.actionBookmarksFragmentToArticleFragment(model.id_key)
-            holder.itemView.findNavController().navigate(directions)
+            val bundle = bundleOf("articleId" to model.id_key)
+            holder.itemView.findNavController()
+                .navigate(R.id.action_bookmarkFragment_to_articleFragment, bundle)
         }
     }
 

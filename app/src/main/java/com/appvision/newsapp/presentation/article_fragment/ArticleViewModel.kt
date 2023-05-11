@@ -69,6 +69,15 @@ class ArticleViewModel(
         callbacks?.remove(callback)
     }
 
+    fun openArticle() {
+        localArticle?.url?.let { callback.openArticle(it) }
+    }
+
+    fun loadArticle(id: String) {
+        Log.d("TAG", "loadArticle: Load")
+        handleArticleUI(repository.loadBookmarkArticle(id))
+    }
+
     private fun handleArticleUI(articleData: ArticleModel?) {
         localArticle = articleData
         articleTitle = articleData?.title ?: ""
@@ -108,15 +117,6 @@ class ArticleViewModel(
             if (callbacks == null) return
         }
         callbacks?.notifyCallbacks(this, fieldId, null)
-    }
-
-    fun openArticle() {
-        localArticle?.url?.let { callback.openArticle(it) }
-    }
-
-    fun loadArticle(id: String) {
-        Log.d("TAG", "loadArticle: Load")
-        handleArticleUI(repository.loadBookmarkArticle(id))
     }
 }
 
