@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
             it.addOnDestinationChangedListener { _, destination, _ ->
                 hideToolbar(destination.id)
             }
+
+
         }
         currentNavController = controller
     }
@@ -50,6 +52,11 @@ class MainActivity : AppCompatActivity() {
             GONE
         } else {
             VISIBLE
+        }
+        binding.bottomNavigation.visibility = if (id in listOfHidden){
+            VISIBLE
+        }else{
+            GONE
         }
     }
 }

@@ -67,6 +67,7 @@ class ViewHolder(
         }
     }
 }
+
 @BindingAdapter("bind:loadTopImage")
 fun setImageUrl(view: ImageView, urlToImage: String?) {
     urlToImage.let {
