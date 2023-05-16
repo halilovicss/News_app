@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -16,8 +18,9 @@ import androidx.navigation.fragment.findNavController
 import com.appvision.newsapp.R
 import com.appvision.newsapp.databinding.FragmentHomepageBinding
 import com.appvision.newsapp.presentation.TopHeadlinesAdapter
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomepageFragment : Fragment(), HomeCallback {
 
@@ -46,13 +49,35 @@ class HomepageFragment : Fragment(), HomeCallback {
 
         binding.rvTopHeadlines.adapter = headLinesAdapter
 
-        viewModel.topHeadlineList?.observe(viewLifecycleOwner) {
-            headLinesAdapter.setList(it)
+        binding.rvAllArticles.adapter = allArticleAdapter
+
+        viewModel.isConnectedView.observe(viewLifecycleOwner) {
+            if (it == false) {
+                binding.querySearch.isEnabled = false
+                binding.rvCategoryList.visibility = GONE
+            }
         }
 
-        binding.rvAllArticles.adapter = allArticleAdapter
-        viewModel.allArticleList?.observe(viewLifecycleOwner) { articleList ->
-            allArticleAdapter.setList(articleList)
+        lifecycleScope.launch(Dispatchers.Main) {
+            withContext(lifecycleScope.coroutineContext + Dispatchers.Main) {
+                viewModel.allArticleList?.observe(viewLifecycleOwner) {
+                    if (it.isNotEmpty()) {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.visibility = INVISIBLE
+                    }
+                    allArticleAdapter.setList(it)
+
+                }
+            }
+            withContext(lifecycleScope.coroutineContext) {
+                viewModel.topHeadlineList?.observe(viewLifecycleOwner) {
+                    if (it.isNotEmpty()) {
+                        binding.shimmerLayoutTop.stopShimmer()
+                        binding.shimmerLayoutTop.visibility = INVISIBLE
+                    }
+                    headLinesAdapter.setList(it)
+                }
+            }
         }
 
         binding.querySearch.setOnEditorActionListener { _, actionId, _ ->
@@ -87,16 +112,28 @@ class HomepageFragment : Fragment(), HomeCallback {
     override fun onCategoryClick(title: String) {
         search(title)
     }
+
     private fun search(title: String) {
-        viewModel.deleteForSearch()
         lifecycleScope.launch {
-            viewModel.loadAndSave(title)
-            delay(1000)
-            return@launch
+            withContext(lifecycleScope.coroutineContext) {
+                viewModel.deleteForSearch()
+            }
+            withContext(lifecycleScope.coroutineContext) {
+                viewModel.fetchAll(title)
+            }
+
+            viewModel.loadAllArticle(title)
+            viewModel.allArticleList?.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.visibility = INVISIBLE
+                }
+                allArticleAdapter.setList(it)
+                binding.shimmerLayout.visibility = INVISIBLE
+                binding.rvAllArticles.adapter = allArticleAdapter
+
+            }
         }
-        viewModel.loadAllArticle(title)
-        viewModel.allArticleList?.observe(viewLifecycleOwner) {
-            allArticleAdapter.setList(it)
-        }
+
     }
 }

@@ -12,6 +12,5 @@
             android:id="@+id/action_bookmarkFragment_to_articleFragment"
             app:destination="@id/article" />
     </fragment>
-
     <include app:graph="@navigation/article" />
 </navigation>

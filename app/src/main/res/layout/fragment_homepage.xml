@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.appvision.newsapp.presentation.home_fragment.HomepageViewModel" />
@@ -103,6 +105,30 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/rv_category_list" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayoutTop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/text_top_headlines"
+                app:shimmer_shape="radial"
+                tools:listitem="@layout/items_top_headlines">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/shimmer_layout_top" />
+
+                    <include layout="@layout/shimmer_layout_top" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_top_headlines"
                 android:layout_width="0dp"
@@ -125,7 +151,39 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/rv_top_headlines" />
+                app:layout_constraintTop_toBottomOf="@+id/shimmerLayoutTop" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isConnectedView() == true ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/text_all_articles"
+                app:shimmer_repeat_mode="restart"
+                app:shimmer_shape="radial">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/shimmer_layout_all" />
+
+                    <include layout="@layout/shimmer_layout_all" />
+
+                    <include layout="@layout/shimmer_layout_all" />
+
+                    <include layout="@layout/shimmer_layout_all" />
+
+                    <include layout="@layout/shimmer_layout_all" />
+
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_all_articles"
@@ -139,6 +197,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@+id/text_all_articles"
                 tools:listitem="@layout/item_articles" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
